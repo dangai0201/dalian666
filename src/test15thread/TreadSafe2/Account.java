@@ -2,13 +2,34 @@ package test15thread.TreadSafe2;
 /*
 * 银行账户
 * 使用线程同步机制，解决线程安全问题
+*
+* java中有3大变量
+* 1.实例变量 在堆中
+* 2.静态变量 在方法区
+* 3.局部变量 在栈中
+*
+* 局部变量永远不会存在线程安全问题
+* 因为局部变量不共享（一个线程一个栈）
+* 局部变量在栈中。所以局部变量永远不会共享
+*
+* 实例变量 在堆中，堆只有一个
+* 静态变量在方法区中，方法区只有1个
+* 堆和方法区都是多线程共享的，所以可能存在线程安全问题
+*
+* 局部变量+常量：不会有现成安全问题
+* 成员变量：可能会有线程安全问题
+*
+*
 * */
 
 public class Account {
     //账号
     private String actno;
     //余额
-    private double balance;
+    private double balance;//实例变量
+
+    //对象
+    Object obj=new Object();//实例变量（Account对象是多线程共享的，Account对象中的实例变量obj也是共享的）
 
     public Account() {
     }
@@ -66,7 +87,9 @@ public class Account {
         *注意：这个共享对象一定要选好了，这个共享对象一定是你需要排队执行的这些线程对象所共享的
         *
         * */
-        synchronized (this){
+//        synchronized (this){
+//        synchronized ("abc"){//"abc"在字符串常量池当中
+//        synchronized (obj){
             //取款之前的余额
             double before=this.getBalance();
             //取款之后的余额
@@ -83,7 +106,7 @@ public class Account {
 
             //更新余额
             this.setBalance(after);
-        }
+//        }
 
 
 
