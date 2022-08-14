@@ -13,6 +13,13 @@ public class Test {
             //如果类中没有int类型的id属性则报异常
             //获取类的属性
             Field[] fields=userClass.getDeclaredFields();
+            for (Field field:fields){
+                if ("id".equals(field.getName()) &&"int".equals(field.getType().getSimpleName())){
+                    //表示这个类是合法的类。有@id注解，则这个类必须有int类型的id
+                    isOK=true;//表示合法
+                    break;
+                }
+            }
 
 
 
