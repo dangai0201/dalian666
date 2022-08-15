@@ -20,6 +20,10 @@ public class Test {
                     break;
                 }
             }
+            //判断是否合法
+            if (!isOK){
+                throw new HasNotIdPropertyException("被@id注解标注的类中必须要有一个int类型的id属性");
+            }
 
 
 
